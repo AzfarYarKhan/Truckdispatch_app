@@ -20,6 +20,7 @@ model User {
   updatedAt DateTime @updatedAt
   role String? @default("driver")
   accounts account[]
+  driver Driver?
 }
 model account {
  id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -37,4 +38,15 @@ session_state String?
 
 user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 @@unique([provider,providerAccountId ])
+}
+
+model Driver {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique@db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company String
+  address String
+  phone_number String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
