@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Signoutbutton from "../buttons/signoutbutton";
+import Signoutbutton from "../../buttons/signoutbutton";
 import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";

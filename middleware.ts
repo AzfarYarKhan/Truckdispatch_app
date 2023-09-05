@@ -3,13 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/dashboard/:path*",
-    "/driver/:path*",
-    "/auth/:path*",
-    "/",
-  ],
+  matcher: ["/admin/:path*", "/driver/:path*", "/auth/:path*", "/"],
 };
 
 export default withAuth(
@@ -25,7 +19,7 @@ export default withAuth(
           return NextResponse.redirect(new URL("/admin/dashboard", req.url));
         }
         if (req.nextauth.token?.role === "driver") {
-          return NextResponse.redirect(new URL("/driver/dashboard", req.url));
+          return NextResponse.redirect(new URL("driver/jobs", req.url));
         }
       }
       return null;

@@ -1,5 +1,4 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import Signoutbutton from "../../../components/buttons/signoutbutton";
 export default async function Component() {
   const currentUser = await getCurrentUser();
   return (

@@ -1,6 +1,6 @@
-import Adminsidebar from "@/components/shared/adminsidebar";
-import Bottombar from "@/components/shared/bottombar";
-import Topbar from "@/components/shared/topbar";
+import Adminsidebar from "@/components/shared/admin/adminsidebar";
+import Bottombar from "@/components/shared/admin/bottombar";
+import Topbar from "@/components/shared/admin/topbar";
 export default function DashboardLayout({
   children,
 }: {
