@@ -127,3 +127,26 @@
     background: #7878a3;
   }
 }
+
+/* Shadcn Component Styles */
+
+/* Tab */
+.no-focus {
+  @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+}
+
+/* onboarding flow  */
+.onboarding-form_image-label {
+  @apply flex h-24 w-24 items-center justify-center rounded-full bg-gray-900 !important;
+}
+
+.onboarding-form_image-input {
+  @apply cursor-pointer border-none bg-transparent outline-none !important;
+}
+
+.onboarding-form_input {
+  @apply text-gray-500 !important;
+}
+.onboarding-form_input:focus {
+  @apply border-none;
+}

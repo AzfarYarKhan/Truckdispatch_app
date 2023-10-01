@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Signoutbutton from "../../buttons/signoutbutton";
-import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
@@ -54,10 +52,7 @@ function Topbar() {
               </p>
             </div>
           </Link>
-          <Link
-            href=""
-            className="relative flex flex-col items-center gap-2 rounded-lg p-2 hover:bg-gray-800"
-          >
+          <div className="bottombar_link">
             <div className="flex flex-col items-center gap-1">
               <Image
                 src="/assets/admin/logout.svg"
@@ -69,7 +64,7 @@ function Topbar() {
               />
               <p className="text-gray-400 max-sm:hidden">Logout</p>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,17 +1,13 @@
 "use client";
-import { useMemo } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import Signoutbutton from "../../buttons/signoutbutton";
 import { usePathname, useRouter } from "next/navigation";
 import { sidebarLinks } from "@/constants/index";
-import { useSession } from "next-auth/react";
 
-export default async function Sidebar() {
-  const router = useRouter();
+export default function Sidebar() {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
-
   return (
     <section className="custom-scrollbar leftsidebar">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
@@ -44,8 +40,6 @@ export default async function Sidebar() {
               >
                 {link.label}
               </p>
-
-              {/* <p className="text-gray-50 max-lg:hidden">{link.label}</p> */}
             </Link>
           );
         })}

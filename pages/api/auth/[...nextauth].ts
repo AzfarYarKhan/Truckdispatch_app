@@ -6,6 +6,7 @@ import bcryprt from "bcrypt";
 import NextAuth from "next-auth";
 import prisma from "@/app/libs/prismadb";
 import { Adapter } from "next-auth/adapters";
+import { JWT, DefaultJWT } from "next-auth/jwt";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -44,18 +45,21 @@ export const authOptions: AuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }): Promise<JWT> {
       const dbUser = await prisma.user.findUnique({
         where: {
           email: token.email as string,
         },
       });
+
       if (!!dbUser) {
         token.role = dbUser.role;
-        return token;
+        return token as JWT;
+      } else {
+        throw new Error("User not found");
       }
     },
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       session.user.role = token.role;
       return session;
     },

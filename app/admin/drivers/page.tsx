@@ -4,7 +4,7 @@ import { PrismaClient, UserInclude, User, Driver } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function getData() {
+async function getData(): Promise<Driverdata[]> {
   try {
     const usersAndDrivers = await prisma.user.findMany({
       where: {
@@ -19,9 +19,9 @@ export async function getData() {
       },
     });
 
-    const driverData: Driverdata[] = usersAndDrivers.map((user) => {
+    const driverData = usersAndDrivers.map((user) => {
       const { id, name, email, image } = user;
-      const company = (user as User & { driver?: Driver }).driver?.company;
+      const company = user.driver?.company ?? null;
       const jobcount = 3; // Hardcoded for now
       return { id, name, email, image, company, jobcount };
     });

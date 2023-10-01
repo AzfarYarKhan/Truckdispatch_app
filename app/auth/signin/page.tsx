@@ -30,6 +30,10 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 const CreateUserForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const {
     register,
     handleSubmit,
@@ -61,7 +65,6 @@ const CreateUserForm = () => {
       }
     } catch (error) {
       console.error(error);
-      // Handle error
     }
   };
   return (
@@ -108,12 +111,21 @@ const CreateUserForm = () => {
               <label className="text-sm font-light" htmlFor="password">
                 Password
               </label>
-              <input
-                className="w-60 md:w-96 px-3 py-2 rounded-md border border-slate-400  bg-slate-100"
-                type="password"
-                id="password"
-                {...register("password", { required: true })}
-              />
+              <div className="relative">
+                <input
+                  className="w-60 md:w-96 px-3 py-2 rounded-md border border-slate-400 bg-slate-100"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  {...register("password", { required: true })}
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600 focus:outline-none"
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
               {errors.password && <span>{errors.password.message}</span>}
             </div>
             <button

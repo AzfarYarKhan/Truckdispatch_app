@@ -31,6 +31,7 @@ function Bottombar() {
             <Link
               href={link.route}
               key={link.label}
+              prefetch={false}
               className={`bottombar_link ${isActive && "bg-gray-700"}`}
             >
               <Image
@@ -49,10 +50,8 @@ function Bottombar() {
               </p>
             </Link>
           );
-
-          return null;
         })}
-        <Link href="" className="bottombar_link">
+        <div className="bottombar_link">
           <div className="flex flex-col items-center gap-1">
             <Image
               src="/assets/admin/logout.svg"
@@ -64,7 +63,7 @@ function Bottombar() {
             />
             <p className="text-gray-400 max-sm:hidden">Logout</p>
           </div>
-        </Link>
+        </div>
       </div>
     </section>
   );

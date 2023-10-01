@@ -7,6 +7,7 @@ function Topbar() {
   return (
     <nav className="topbar">
       <Link
+        prefetch={false}
         href="/driver/jobs"
         className="flex items-center gap-4 p-3 max-sm:p-1"
       >

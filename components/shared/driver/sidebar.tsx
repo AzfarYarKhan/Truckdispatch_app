@@ -11,7 +11,7 @@ import { User } from "@prisma/client";
 interface SidebarProps {
   currentUser: User | null;
 }
-export default async function Sidebar({ currentUser }: SidebarProps) {
+export default function Sidebar({ currentUser }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session, status } = useSession();
@@ -19,22 +19,39 @@ export default async function Sidebar({ currentUser }: SidebarProps) {
   return (
     <section className="custom-scrollbar leftsidebar">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
-        <Link href="/driver/jobs" className="pb-12 max-xl:hidden">
+        <Link
+          prefetch={false}
+          href="/driver/jobs"
+          className="pb-12 max-xl:hidden"
+        >
           <Image src="/vercel.svg" alt="logo" width={120} height={120} />
         </Link>
 
         <div className="mb-8 max-xl:hidden flex flex-col justify-center items-center text-center">
-          <Image
-            src={
-              currentUser?.image
-                ? currentUser.image
-                : "/assets/driver/default_profile_image.png"
-            }
-            alt="User Profile"
-            width={90}
-            height={90}
-            className="rounded-full object-cover"
-          />
+          <div className="w-120 h-120">
+            <div
+              className="w-full h-full rounded-full overflow-hidden"
+              style={{
+                maskImage:
+                  "radial-gradient(circle, white 50%, transparent 50%)",
+                WebkitMaskImage:
+                  "radial-gradient(circle, white 50%, transparent 50%)",
+              }}
+            >
+              <Image
+                src={
+                  currentUser?.image
+                    ? currentUser.image
+                    : "/assets/driver/default_profile_image.png"
+                }
+                alt="image_icon"
+                width={120}
+                height={120}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
           <p className="text-sm font-medium pt-4 text-gray-400">
             {currentUser?.name}
           </p>
@@ -48,6 +65,7 @@ export default async function Sidebar({ currentUser }: SidebarProps) {
             <Link
               href={link.route}
               key={link.label}
+              prefetch={false}
               className={`leftsidebar_link ${isActive && "bg-gray-700"}`}
             >
               <img

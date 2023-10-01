@@ -19,7 +19,9 @@ export async function POST(request: Request) {
     createdAt: userexistalready.createdAt,
   };
   const expirationTimeInSeconds = 900;
-
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT secret is not defined.");
+  }
   const user_token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: expirationTimeInSeconds,
   });

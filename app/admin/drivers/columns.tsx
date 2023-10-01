@@ -14,10 +14,10 @@ import {
 
 export type Driverdata = {
   id: string;
-  name: String;
+  name: String | null;
   email: string;
   image: String | null;
-  company: String;
+  company: String | null;
   jobcount: number;
 };
 
