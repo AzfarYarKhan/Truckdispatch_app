@@ -3,6 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import ActionsMenu from "./ActionsMenu";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,7 +74,8 @@ export const columns: ColumnDef<Driverdata>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const email: string = row.getValue("email");
+      const router = useRouter();
 
       return (
         <DropdownMenu>
@@ -82,17 +88,14 @@ export const columns: ColumnDef<Driverdata>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-            // onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => router.push(`/admin/drivers/${email}`)}
             >
               Details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-            // onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Delete
-            </DropdownMenuItem>
+            <ActionsMenu email={email} />
           </DropdownMenuContent>
+          <ToastContainer />
         </DropdownMenu>
       );
     },

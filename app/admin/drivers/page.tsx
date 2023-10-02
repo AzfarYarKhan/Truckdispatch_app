@@ -1,6 +1,7 @@
 import { Driverdata, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { PrismaClient, UserInclude, User, Driver } from "@prisma/client";
+import React, { useState, useEffect } from "react";
 
 const prisma = new PrismaClient();
 

@@ -100,11 +100,10 @@ const Modal: React.FC<ModalProps> = ({ is_modalopen, onChange }) => {
           values.image = imgres[0].url;
         }
         await updateUser(values);
-        router.push("/");
+        router.refresh();
       }
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
     }
   };
