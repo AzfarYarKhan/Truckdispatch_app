@@ -2,12 +2,14 @@
 
 import Modal from "./modal";
 import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
 
 interface ModalProps {
   is_modalopen: boolean;
+  currentUser: User | null;
 }
 
-function ModalProvider({ is_modalopen }: ModalProps) {
+function ModalProvider({ is_modalopen, currentUser }: ModalProps) {
   const [isMounted, SetIsMounted] = useState(false);
   useEffect(() => {
     SetIsMounted(is_modalopen);
@@ -19,7 +21,11 @@ function ModalProvider({ is_modalopen }: ModalProps) {
 
   return (
     <>
-      <Modal is_modalopen={isMounted} onChange={() => {}} />
+      <Modal
+        is_modalopen={isMounted}
+        onChange={() => {}}
+        currentUser={currentUser}
+      />
     </>
   );
 }

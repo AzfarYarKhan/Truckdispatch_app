@@ -10,6 +10,8 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { updateUser } from "@/app/actions/user.actions";
 import { useRouter } from "next/navigation";
 import Loadingspinner from "@/app/driver/loading";
+import { User } from "@prisma/client";
+import { useEffect } from "react";
 
 import {
   Form,
@@ -38,6 +40,7 @@ import { ChangeEvent } from "react";
 interface ModalProps {
   is_modalopen: boolean;
   onChange: (open: boolean) => void;
+  currentUser: User | null;
 }
 const formSchema = z.object({
   image: z.string().url().nonempty(),
@@ -46,18 +49,28 @@ const formSchema = z.object({
   phone: z.string().min(5).max(20),
 });
 
-const Modal: React.FC<ModalProps> = ({ is_modalopen, onChange }) => {
+const Modal: React.FC<ModalProps> = ({
+  is_modalopen,
+  onChange,
+  currentUser,
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const { startUpload } = useUploadThing("media");
   const router = useRouter();
-
   const [PreviewUrl, setPreviewUrl] = useState<string>("");
+  useEffect(() => {
+    setPreviewUrl(
+      currentUser?.image
+        ? currentUser.image
+        : "/assets/driver/default_profile_image.png"
+    );
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      image: "",
+      image: currentUser?.image ? currentUser.image : "",
       company: "",
       address: "",
       phone: "",
@@ -94,14 +107,17 @@ const Modal: React.FC<ModalProps> = ({ is_modalopen, onChange }) => {
       setLoading(true);
       const blob = values.image;
       const hasImageChanged = isBase64Image(blob);
+      if (!hasImageChanged && values.image !== "") {
+        form.clearErrors("image");
+      }
       if (hasImageChanged) {
         const imgres = await startUpload(files);
         if (imgres && imgres[0].url) {
           values.image = imgres[0].url;
         }
-        await updateUser(values);
-        router.refresh();
       }
+      await updateUser(values);
+      router.refresh();
     } catch (error) {
       console.error(error);
       setLoading(false);

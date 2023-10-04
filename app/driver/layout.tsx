@@ -29,7 +29,7 @@ export default async function DashboardLayout({
   }
   return (
     <>
-      <ModalProvider is_modalopen={is_modalopen} />
+      <ModalProvider is_modalopen={is_modalopen} currentUser={currentUser} />
       <section className="flex">
         <Topbar />
         <Sidebar currentUser={currentUser} />

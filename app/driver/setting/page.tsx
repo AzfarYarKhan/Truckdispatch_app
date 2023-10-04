@@ -1,7 +1,9 @@
-export default async function Setting() {
+import { SettingsProvider } from "@/components/shared/driver/settingsprovider";
+
+export default function Setting() {
   return (
     <>
-      <h1> Settings page</h1>
+      <SettingsProvider />
     </>
   );
 }
