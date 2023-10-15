@@ -117,106 +117,111 @@ export default function Setting({ currentUser, currentDriver }: SettingProps) {
       {loading ? (
         <Loadingspinner />
       ) : (
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-4">
-                  <FormLabel
-                    htmlFor="image"
-                    className="onboarding-form_image-label"
-                  >
-                    <Image
-                      src={
-                        PreviewUrl
-                          ? PreviewUrl
-                          : "/assets/driver/default_profile_image.png"
-                      }
-                      alt="image_icon"
-                      width={100}
-                      height={100}
-                      className=" rounded-full  w-full h-full object-cover"
-                    />
-                  </FormLabel>
+        <div>
+          <div className="flex w-full h-6 border-b-0 mb-12 text-2xl font-bold justify-center items-center">
+            <h1 className="text-gray-800">User Profile</h1>
+          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-4">
+                    <FormLabel
+                      htmlFor="image"
+                      className="onboarding-form_image-label"
+                    >
+                      <Image
+                        src={
+                          PreviewUrl
+                            ? PreviewUrl
+                            : "/assets/driver/default_profile_image.png"
+                        }
+                        alt="image_icon"
+                        width={100}
+                        height={100}
+                        className=" rounded-full  w-full h-full object-cover"
+                      />
+                    </FormLabel>
 
-                  <FormControl className="flex-1 text-base-semibold text-grey-200">
-                    <Input
-                      id="image"
-                      type="file"
-                      accept="image/*"
-                      placeholder="Upload a photo"
-                      className="onboarding-form_image-input"
-                      onChange={(e) => handleImage(e, field.onChange)}
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormControl className="flex-1 text-base-semibold text-grey-200">
+                      <Input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        placeholder="Upload a photo"
+                        className="onboarding-form_image-input"
+                        onChange={(e) => handleImage(e, field.onChange)}
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="company">Company</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="onboarding-form_input"
-                      id="company"
-                      {...field}
-                      placeholder="Company"
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="address">Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="onboarding-form_input"
-                      id="address"
-                      {...field}
-                      placeholder="Address"
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="phone">Phone No</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="onboarding-form_input"
-                      id="phone"
-                      {...field}
-                      placeholder="Phone Number"
-                    />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Save changes</Button>
-          </form>
-        </Form>
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="company">Company</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="onboarding-form_input"
+                        id="company"
+                        {...field}
+                        placeholder="Company"
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="address">Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="onboarding-form_input"
+                        id="address"
+                        {...field}
+                        placeholder="Address"
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="phone">Phone No</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="onboarding-form_input"
+                        id="phone"
+                        {...field}
+                        placeholder="Phone Number"
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Save changes</Button>
+            </form>
+          </Form>
+        </div>
       )}
     </>
   );
