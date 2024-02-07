@@ -49,4 +49,30 @@ model Driver {
   address String
   phone_number String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobs Job[]
+}
+model Job {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  driverId String @db.ObjectId 
+  date DateTime
+  distance Int
+  job_name String
+  pickup_loc LatitudeLongitude
+  dropoff_loc LatitudeLongitude
+  pickup_name String
+  dropoff_name String
+  status Status
+  createdAt DateTime @default(now())
+  driver Driver @relation(fields: [driverId], references: [id])
+}
+
+type LatitudeLongitude {
+  lat Float
+  lon Float
+}
+enum Status {
+  COMPLETED
+  PENDING
+  MISSED
+  ACTIVE
 }
