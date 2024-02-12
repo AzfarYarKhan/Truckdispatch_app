@@ -13,8 +13,8 @@ async function getData(): Promise<Driverdata[]> {
       },
       include: {
         driver: {
-          select: {
-            company: true,
+          include: {
+            jobs: true,
           },
         },
       },
@@ -23,7 +23,7 @@ async function getData(): Promise<Driverdata[]> {
     const driverData = usersAndDrivers.map((user) => {
       const { id, name, email, image } = user;
       const company = user.driver?.company ?? null;
-      const jobcount = 3; // Hardcoded for now
+      const jobcount = user.driver?.jobs.length ?? 0;
       return { id, name, email, image, company, jobcount };
     });
 
