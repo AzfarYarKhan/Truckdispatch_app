@@ -3,7 +3,8 @@
 import * as z from "zod";
 import prisma from "@/app/libs/prismadb";
 import { Prisma } from "@prisma/client";
-
+import { NextApiRequest, NextApiResponse } from "next";
+import { Jobdata } from "@/app/admin/jobs/columns";
 const LatitudeLongitude = z.object({
   latitude: z.number(),
   longitude: z.number(),
@@ -83,4 +84,40 @@ export async function sendSMS(driver_id: string) {
     console.error(`Error sending SMS: ${error.message}`);
     throw error;
   }
+}
+
+export async function getAllJobsData(): Promise<Jobdata[]> {
+  try {
+    const jobs = await prisma.job.findMany({
+      include: {
+        driver: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    const jobsdata = jobs?.map((job) => ({
+      name: job.job_name,
+      date: job.date.toISOString(),
+      driver: job.driver.user.name,
+      status: job.status,
+    }));
+
+    return jobsdata || [];
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Internal Server Error");
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export default async function getalljobs(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const data = await getAllJobsData();
+  res.status(200).json(data);
 }
