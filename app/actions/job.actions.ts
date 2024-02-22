@@ -5,6 +5,7 @@ import prisma from "@/app/libs/prismadb";
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Jobdata } from "@/app/admin/jobs/columns";
+import exp from "constants";
 const LatitudeLongitude = z.object({
   latitude: z.number(),
   longitude: z.number(),
@@ -60,6 +61,36 @@ export async function createJob(data) {
   }
 }
 
+export async function cancelJob(name: string) {
+  try {
+    const job = await prisma.job.findUnique({
+      where: {
+        job_name: name,
+      },
+    });
+
+    if (!job) {
+      console.error("Job not found");
+      return;
+    }
+
+    const updatedJob = await prisma.job.update({
+      where: {
+        job_name: name,
+      },
+      data: {
+        status: "CANCELLED",
+      },
+    });
+
+    console.log("Job cancelled successfully:", updatedJob);
+  } catch (error) {
+    console.error("Error cancelling job:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 export async function sendSMS(driver_id: string) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -85,7 +116,40 @@ export async function sendSMS(driver_id: string) {
     throw error;
   }
 }
+export async function sendCancellSMS(name: string) {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const client = require("twilio")(accountSid, authToken);
 
+  try {
+    const job = await prisma.job.findUnique({
+      where: {
+        job_name: name,
+      },
+      include: {
+        driver: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    const phone_no = job?.driver.phone_number;
+    const job_name = job?.job_name;
+    const user = job?.driver.user.name;
+    const message = await client.messages.create({
+      body: `Hello ${user}, It is to notify you that the Job named ${job_name} which was assigned to you has hereby been cancelled.`,
+      from: "+13257701591",
+      to: phone_no,
+    });
+
+    console.log(`SMS sent with SID: ${message.sid}`);
+    return message.sid;
+  } catch (error) {
+    console.error(`Error sending SMS: ${error.message}`);
+    throw error;
+  }
+}
 export async function getAllJobsData(): Promise<Jobdata[]> {
   try {
     const jobs = await prisma.job.findMany({

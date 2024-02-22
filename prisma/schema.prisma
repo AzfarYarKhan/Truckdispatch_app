@@ -56,7 +56,7 @@ model Job {
   driverId String @db.ObjectId 
   date DateTime
   distance Int
-  job_name String
+  job_name String  @unique
   pickup_loc LatitudeLongitude
   dropoff_loc LatitudeLongitude
   pickup_name String
@@ -75,4 +75,5 @@ enum Status {
   PENDING
   MISSED
   ACTIVE
+  CANCELLED
 }
