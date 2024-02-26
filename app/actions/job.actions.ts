@@ -90,7 +90,35 @@ export async function cancelJob(name: string) {
     await prisma.$disconnect();
   }
 }
+export async function acceptJob(name: string) {
+  try {
+    const job = await prisma.job.findUnique({
+      where: {
+        job_name: name,
+      },
+    });
 
+    if (!job) {
+      console.error("Job not found");
+      return;
+    }
+
+    const updatedJob = await prisma.job.update({
+      where: {
+        job_name: name,
+      },
+      data: {
+        status: "ACTIVE",
+      },
+    });
+
+    console.log("Job accepted successfully:", updatedJob);
+  } catch (error) {
+    console.error("Error accepting job:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 export async function sendSMS(driver_id: string) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -153,6 +181,36 @@ export async function sendCancellSMS(name: string) {
 export async function getAllJobsData(): Promise<Jobdata[]> {
   try {
     const jobs = await prisma.job.findMany({
+      include: {
+        driver: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    const jobsdata = jobs?.map((job) => ({
+      name: job.job_name,
+      date: job.date.toISOString(),
+      driver: job.driver.user.name,
+      status: job.status,
+    }));
+
+    return jobsdata || [];
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Internal Server Error");
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+export async function getdriverJobsData(driverId: string): Promise<Jobdata[]> {
+  try {
+    const jobs = await prisma.job.findMany({
+      where: {
+        driverId: driverId,
+      },
       include: {
         driver: {
           include: {
