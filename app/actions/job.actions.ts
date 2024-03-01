@@ -119,6 +119,35 @@ export async function acceptJob(name: string) {
     await prisma.$disconnect();
   }
 }
+export async function finishJob(name: string) {
+  try {
+    const job = await prisma.job.findUnique({
+      where: {
+        job_name: name,
+      },
+    });
+
+    if (!job) {
+      console.error("Job not found");
+      return;
+    }
+
+    const updatedJob = await prisma.job.update({
+      where: {
+        job_name: name,
+      },
+      data: {
+        status: "COMPLETED",
+      },
+    });
+
+    console.log("Job accepted successfully:", updatedJob);
+  } catch (error) {
+    console.error("Error accepting job:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 export async function sendSMS(driver_id: string) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
