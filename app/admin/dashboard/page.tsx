@@ -55,12 +55,12 @@ export default async function Dashboard() {
     },
     {} as Record<string, number>
   );
-  const last7Days = Array.from({ length: 7 }, (_, index) => {
+  const last7DaysDesc = Array.from({ length: 7 }, (_, index) => {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() - index);
     return currentDate.toISOString().split("T")[0];
   });
-
+  const last7Days = last7DaysDesc.reverse();
   const barChartData = last7Days.map((date) => ({
     date: new Date(date).toLocaleDateString("en-US", {
       month: "short",
@@ -68,28 +68,25 @@ export default async function Dashboard() {
     }),
     "Number of Jobs Due": transformedBarChartData[date] || 0,
   }));
-  const areaChartData = await prisma.job
-    .findMany({
-      where: {
-        date: {
-          gte: sevenDaysAgo.toISOString(),
-        },
-      },
-    })
-    .then((jobs) =>
-      jobs.reduce((acc, job) => {
-        const dateKey = job.date.toISOString().split("T")[0];
-        acc[dateKey] = acc[dateKey] || { Completed: 0, Missed: 0 };
-        if (job.status === "COMPLETED") {
-          acc[dateKey].Completed++;
-        } else if (job.status === "MISSED") {
-          acc[dateKey].Missed++;
-        }
-        return acc;
-      }, {} as Record<string, { Completed: number; Missed: number }>)
-    );
 
-  const areaChartArray = Object.keys(areaChartData).map((date) => ({
+  const areaChartData: Record<string, { Completed: number; Missed: number }> =
+    last7Days.reduce((acc, date) => {
+      acc[date] = { Completed: 0, Missed: 0 };
+      return acc;
+    }, {} as Record<string, { Completed: number; Missed: number }>);
+
+  jobs.forEach((job) => {
+    const dateKey = job.date.toISOString().split("T")[0];
+    if (dateKey in areaChartData) {
+      if (job.status === "COMPLETED") {
+        areaChartData[dateKey].Completed++;
+      } else if (job.status === "MISSED") {
+        areaChartData[dateKey].Missed++;
+      }
+    }
+  });
+
+  const areaChartArray = last7Days.map((date) => ({
     date: new Date(date).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
