@@ -51,6 +51,8 @@
     "next-auth": "^4.22.1",
     "nodemailer": "^6.9.3",
     "postcss": "8.4.24",
+    "pusher": "^5.2.0",
+    "pusher-js": "^8.4.0-rc2",
     "react": "^18.2.0",
     "react-day-picker": "^8.9.1",
     "react-dom": "^18.2.0",

@@ -272,3 +272,23 @@ export default async function getalljobs(
   const data = await getAllJobsData();
   res.status(200).json(data);
 }
+
+export async function share_realtime_loc(
+  latitude: number,
+  longitude: number,
+  jobname: string
+) {
+  const Pusher = require("pusher");
+  const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: "ap2",
+    useTLS: true,
+  });
+  const eventName = `location-update-${jobname}`;
+  pusher.trigger("location-channel", eventName, {
+    latitude,
+    longitude,
+  });
+}

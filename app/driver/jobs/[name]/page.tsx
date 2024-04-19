@@ -22,7 +22,24 @@ export default async function jobdetails({
     },
   });
   const job_date = job?.date.toISOString();
+  let activeJobsCount = 0;
+  let isCurrentJobActive = false;
 
+  if (job?.driver) {
+    const driver = await prisma.driver.findUnique({
+      where: {
+        id: job.driver.id,
+      },
+      include: {
+        jobs: true,
+      },
+    });
+    activeJobsCount =
+      driver?.jobs.filter((job) => job.status === "ACTIVE").length || 0;
+    isCurrentJobActive =
+      driver?.jobs.some((j) => j.status === "ACTIVE" && j.id === job.id) ||
+      false;
+  }
   return (
     <div className="flex-col mt-6 lg:mt-12 lg:px-20 px-2 pt-4 pb-16 lg:pb-12 xl:mr-2 ">
       {job ? (
@@ -46,14 +63,16 @@ export default async function jobdetails({
               </div>
             </div>
             <div className="col-span-1 xl:col-span-1 xl:pt-6">
-              {(job?.status === "PENDING" || job?.status === "ACTIVE") && (
-                <Button
-                  jobname={job.job_name}
-                  jobstatus={job.status}
-                  pickupLocation={job.pickup_loc}
-                  dropoffLocation={job.dropoff_loc}
-                />
-              )}
+              {(job?.status === "PENDING" || job?.status === "ACTIVE") &&
+                (activeJobsCount === 0 ||
+                  (activeJobsCount === 1 && isCurrentJobActive)) && (
+                  <Button
+                    jobname={job.job_name}
+                    jobstatus={job.status}
+                    pickupLocation={job.pickup_loc}
+                    dropoffLocation={job.dropoff_loc}
+                  />
+                )}
             </div>
           </div>
         </>
