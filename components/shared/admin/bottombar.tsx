@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/constants";
+import { FaCrown } from "react-icons/fa6";
 
 function Bottombar() {
   const pathname = usePathname();
+  const isActivesubscriptionlink = pathname?.includes("/admin/subscription");
 
   return (
     <section className="bottombar">
@@ -43,6 +45,29 @@ function Bottombar() {
 
           return null;
         })}
+        <Link
+          href="/admin/subscription"
+          key="subscription"
+          className={`leftsidebar_link ${
+            isActivesubscriptionlink && "bg-gray-700"
+          }`}
+        >
+          <div className="flex flex-col items-center gap-3 ">
+            <FaCrown
+              className={`h-4 w-4 ${
+                isActivesubscriptionlink ? "text-blue-600" : "text-white"
+              }`}
+            />
+
+            <p
+              className={`text-subtle-medium text-light-1 max-sm:hidden ${
+                isActivesubscriptionlink ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              Upgrade
+            </p>
+          </div>
+        </Link>
       </div>
     </section>
   );

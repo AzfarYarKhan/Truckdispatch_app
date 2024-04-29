@@ -1,6 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import bcryprt from "bcrypt";
+import { checkSubscription } from "@/app/libs/subscription";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -12,6 +13,18 @@ export async function POST(request: Request) {
 
   if (userexistalready) {
     return NextResponse.json({ message: "Email is already in use" });
+  }
+
+  const is_SubscriptionValid = await checkSubscription();
+
+  if (!is_SubscriptionValid) {
+    const totalDriversCount = await prisma.driver.count();
+    if (totalDriversCount >= 10) {
+      return NextResponse.json({
+        message:
+          "Limit reached for free version. Upgrade to Pro for unlimited drivers.",
+      });
+    }
   }
   const user = await prisma.user.create({
     data: {

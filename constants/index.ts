@@ -23,10 +23,4 @@ export const sidebarLinks = [
     route: "/admin/inbox",
     label: "Inbox",
   },
-  {
-    imgURL: "/assets/admin/payment.svg",
-    imgURLactive: "/assets/admin/paymentactive.svg",
-    route: "/admin/payment",
-    label: "Payments",
-  },
 ];

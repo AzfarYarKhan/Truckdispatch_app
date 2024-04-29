@@ -66,6 +66,14 @@ model Job {
   driver Driver @relation(fields: [driverId], references: [id])
 }
 
+model ProSubscription{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  stripeCustomerId String? @unique @map(name: "Stripe_customer_id")
+  stripeSubscriptionId String? @map(name: "stripe_subscription_id")
+  stripePriceId String? @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+}
+
 type LatitudeLongitude {
   lat Float
   lon Float

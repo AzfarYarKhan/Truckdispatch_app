@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/middleware.js"
+    "app/middleware.js",
+    "app/admin/subscription"
   ],
   "exclude": ["node_modules"]
 }

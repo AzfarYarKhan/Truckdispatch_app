@@ -36,3 +36,7 @@ export function formatThreadCount(count: number): string {
     return `${threadCount} ${threadWord}`;
   }
 }
+
+export function absoluteURL(path: string) {
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
+}

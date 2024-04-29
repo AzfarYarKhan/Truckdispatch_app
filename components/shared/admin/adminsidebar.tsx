@@ -5,9 +5,23 @@ import Link from "next/link";
 import Signoutbutton from "../../buttons/signoutbutton";
 import { usePathname, useRouter } from "next/navigation";
 import { sidebarLinks } from "@/constants/index";
+import { FaCrown } from "react-icons/fa6";
+import { checkSubscription } from "@/app/libs/subscription";
+import { useEffect, useState } from "react";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const isActivesubscriptionlink = pathname?.includes("/admin/subscription");
+  const [isValidSubscription, setIsValidSubscription] = useState(false);
+
+  useEffect(() => {
+    const fetchSubscriptionValidity = async () => {
+      const isValid = await checkSubscription();
+      setIsValidSubscription(isValid);
+    };
+
+    fetchSubscriptionValidity();
+  }, []);
   return (
     <section className="custom-scrollbar leftsidebar">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
@@ -43,6 +57,28 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        <Link
+          href="/admin/subscription"
+          key="subscription"
+          className={`leftsidebar_link ${
+            isActivesubscriptionlink && "bg-gray-700"
+          }`}
+        >
+          <FaCrown
+            className={`h-6 w-6 ${
+              isActivesubscriptionlink ? "text-blue-600" : "text-white"
+            }`}
+          />
+
+          <p
+            className={`max-xl:hidden ${
+              isActivesubscriptionlink ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            {isValidSubscription ? "Cancel Pro" : "Upgrade to Pro"}
+          </p>
+        </Link>
       </div>
       <div className="mt-10 px-6">
         <Signoutbutton />
