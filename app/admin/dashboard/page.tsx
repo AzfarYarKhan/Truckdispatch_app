@@ -100,7 +100,7 @@ export default async function Dashboard() {
         <Card title="Missed Jobs" value={missedJobs.toString()} />
         <Card title="Pending Jobs" value={pendingJobs.toString()} />
       </div>
-      <div className="grid sm:max-xl:grid-cols-1 xl:grid-cols-2 gap-4 mt-6 justify-center max-w-[1100px]">
+      <div className="grid sm:max-xl:grid-cols-1 xl:grid-cols-2 gap-4 mt-6 justify-center max-w-[1100px] ml-[-20px] pr-5">
         <div className="col-span-1 xl:col-span-2 m-2">
           <AreaChartHero areaChartData={areaChartArray} />
         </div>

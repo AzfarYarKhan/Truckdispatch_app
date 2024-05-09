@@ -6,10 +6,10 @@ export const sidebarLinks = [
     label: "Jobs",
   },
   {
-    imgURL: "/assets/admin/inbox.svg",
-    imgURLactive: "/assets/admin/inboxactive.svg",
-    route: "/driver/inbox",
-    label: "Inbox",
+    imgURL: "/assets/driver/videocamera.svg",
+    imgURLactive: "/assets/driver/videocameraactive.svg",
+    route: "/driver/videocall",
+    label: "Video Call",
   },
   {
     imgURL: "/assets/driver/setting.svg",

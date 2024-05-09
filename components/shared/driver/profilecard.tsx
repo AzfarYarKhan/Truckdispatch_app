@@ -7,6 +7,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { ImOffice } from "react-icons/im";
 import { BiSolidUser } from "react-icons/bi";
+import { ChatVideoButton } from "@/components/buttons/chat-video-button";
 
 import {
   Card,
@@ -37,8 +38,9 @@ export function CardProfile({
   return (
     <Card className="xl:w-[300px] w-full border-2 px-1 border-slate-200 ">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-blue-950">
-          Intro
+        <CardTitle className=" flex justify-between text-2xl font-bold text-blue-950">
+          <div> Intro</div>
+          <ChatVideoButton />
         </CardTitle>
       </CardHeader>
       <CardContent>

@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { sidebarLinks } from "@/constants/driver";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
-
 interface SidebarProps {
   currentUser: User | null;
 }

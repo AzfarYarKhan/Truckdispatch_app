@@ -5,11 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/constants";
 import { FaCrown } from "react-icons/fa6";
+import { useState, useEffect } from "react";
+import { checkSubscription } from "@/app/libs/subscription";
 
 function Bottombar() {
   const pathname = usePathname();
   const isActivesubscriptionlink = pathname?.includes("/admin/subscription");
+  const [isValidSubscription, setIsValidSubscription] = useState(false);
 
+  useEffect(() => {
+    const fetchSubscriptionValidity = async () => {
+      const isValid = await checkSubscription();
+      setIsValidSubscription(isValid);
+    };
+
+    fetchSubscriptionValidity();
+  }, []);
   return (
     <section className="bottombar">
       <div className="bottombar_container">
@@ -64,7 +75,7 @@ function Bottombar() {
                 isActivesubscriptionlink ? "text-blue-600" : "text-gray-400"
               }`}
             >
-              Upgrade
+              {isValidSubscription ? "Cancel Pro" : "Upgrade to Pro"}
             </p>
           </div>
         </Link>

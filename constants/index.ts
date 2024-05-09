@@ -17,10 +17,4 @@ export const sidebarLinks = [
     route: "/admin/drivers",
     label: "Drivers",
   },
-  {
-    imgURL: "/assets/admin/inbox.svg",
-    imgURLactive: "/assets/admin/inboxactive.svg",
-    route: "/admin/inbox",
-    label: "Inbox",
-  },
 ];

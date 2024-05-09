@@ -25,33 +25,6 @@ function Topbar() {
 
       <div className="flex items-center gap-1">
         <div className="flex items-center justify-between md:hidden">
-          <Link
-            href="/admin/inbox"
-            className={`relative flex flex-col items-center gap-2 rounded-lg p-2 hover:bg-gray-800 ${
-              isActive && "bg-gray-700"
-            }`}
-          >
-            <div className="flex flex-col items-center gap-1">
-              <Image
-                src={
-                  isActive
-                    ? "/assets/admin/inboxactive.svg"
-                    : "/assets/admin/inbox.svg"
-                }
-                alt="Inbox"
-                width={16}
-                height={16}
-                className="object-contain"
-              />
-              <p
-                className={`text-subtle-medium text-light-1 max-sm:hidden ${
-                  isActive ? "text-blue-600" : "text-gray-400"
-                }`}
-              >
-                Inbox
-              </p>
-            </div>
-          </Link>
           <div className="bottombar_link">
             <div className="flex flex-col items-center gap-1">
               <Image
