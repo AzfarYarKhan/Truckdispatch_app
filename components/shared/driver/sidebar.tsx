@@ -21,7 +21,7 @@ export default function Sidebar({ currentUser }: SidebarProps) {
         <Link
           prefetch={false}
           href="/driver/jobs"
-          className="pb-12 max-xl:hidden"
+          className="pb-2 max-xl:hidden"
         >
           <Image src="/vercel.svg" alt="logo" width={120} height={120} />
         </Link>
