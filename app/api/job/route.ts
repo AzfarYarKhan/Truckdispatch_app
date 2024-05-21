@@ -2,7 +2,7 @@ import prisma from "@/app/libs/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 import { verifySignatureAppRouter } from "@upstash/qstash/dist/nextjs";
 
-export async function UpdateJobs_status(request: NextRequest) {
+async function UpdateJobs_status(request: NextRequest) {
   try {
     console.log("end point hit");
     const jobs = await prisma.job.findMany();
