@@ -10,7 +10,6 @@ const LatitudeLongitude = z.object({
   latitude: z.number(),
   longitude: z.number(),
 });
-
 const StatusEnum = z.enum(["PENDING", "ACTIVE", "MISSED", "COMPLETED"]);
 
 const formSchema = z.object({
@@ -162,7 +161,7 @@ export async function sendSMS(driver_id: string) {
     const phone_no = Driver?.phone_number;
     const message = await client.messages.create({
       body: "Hello, Another Job has been assigned to you. Kindly report via APP",
-      from: "+13257701591",
+      from: "+13149883115",
       to: phone_no,
     });
 

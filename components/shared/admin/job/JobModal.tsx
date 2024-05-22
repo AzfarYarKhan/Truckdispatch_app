@@ -133,8 +133,17 @@ function JobModal() {
       reset();
       setLoading(true);
       const driver_id = data.driver_id;
-      await sendSMS(driver_id);
+      // await sendSMS(driver_id);
       createJobMutation.mutate(data);
+      try {
+        console.log("Sending SMS to driver:", driver_id);
+        await sendSMS(driver_id);
+      } catch (error) {
+        console.error("Failed to send SMS:", error);
+        setLoading(false);
+        toast.error("Failed to send SMS. Please try again.");
+        return;
+      }
       router.refresh();
       setLoading(false);
       toast.success("Job created!");
