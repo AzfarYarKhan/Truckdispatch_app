@@ -61,9 +61,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       );
       url = stripeSession.url || "";
     }
-  } catch {
+  } catch (error) {
     return {
-      error: "Something went wrong",
+      error: error.message || "Something went wrong",
     };
   }
   revalidatePath(`/admin/subscription`);
